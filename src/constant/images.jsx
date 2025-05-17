@@ -12,3 +12,8 @@
 {/* <img src={Images.photo1} alt="" /> */}
 {/* <img src={Images.photo2} alt="" /> */}
 
+import logo from "../assets/images/open-book.png"
+
+export default {
+    logo
+}
