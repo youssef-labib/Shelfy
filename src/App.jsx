@@ -7,11 +7,12 @@ import SignUp from './pages/auth/partials/signUp';
 import SignIn from './pages/auth/partials/signIn';
 import CodeVerification from './pages/auth/partials/codeVerification';
 import CreatePassword from './pages/auth/partials/createPassword';
-import AdminDashboard from './pages/admin/partials/adminDashboard';
+import Admin from './pages/admin/admin';
+import { AuthProvider } from './context/AuthContext';
 
 const App = () => {
   return (
-    <>
+    <AuthProvider>
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -19,10 +20,10 @@ const App = () => {
         <Route path="/auth/sign-in" element={<SignIn />} />
         <Route path="/auth/code-verification" element={<CodeVerification />} />
         <Route path="/auth/create-password" element={<CreatePassword />} />
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/dashboard" element={<Admin />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
-    </>
+    </AuthProvider>
   );
 };
 

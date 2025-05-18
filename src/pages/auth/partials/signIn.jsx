@@ -1,14 +1,15 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Images from '../../../constant/images';
+import { useAuth } from '../../../context/AuthContext';
 
 const SignIn = () => {
-    const navigate = useNavigate();
+    const navigate = useNavigate()
+    const { login } = useAuth()
 
     React.useEffect(() => {
-        // Create admin account if it doesn't exist
-        const accounts = JSON.parse(localStorage.getItem('accounts') || '[]');
-        const adminExists = accounts.some(acc => acc.isAdmin);
+        const accounts = JSON.parse(localStorage.getItem('accounts') || '[]')
+        const adminExists = accounts.some(acc => acc.isAdmin)
         
         if (!adminExists) {
             const adminAccount = {
@@ -16,36 +17,33 @@ const SignIn = () => {
                 email: "admin@shelfy.com",
                 password: "admin123",
                 isAdmin: true
-            };
-            accounts.push(adminAccount);
-            localStorage.setItem('accounts', JSON.stringify(accounts));
+            }
+            accounts.push(adminAccount)
+            localStorage.setItem('accounts', JSON.stringify(accounts))
         }
     }, []);
 
     const handleSubmit = (e) => {
-        e.preventDefault();
-        const email = e.target.email.value;
-        const password = e.target.password.value;
+        e.preventDefault()
+        const email = e.target.email.value
+        const password = e.target.password.value
 
-        // Get accounts from localStorage
-        const accounts = JSON.parse(localStorage.getItem('accounts') || '[]');
-        
-        // Find matching account
-        const account = accounts.find(acc => acc.email === email && acc.password === password);
+        const accounts = JSON.parse(localStorage.getItem('accounts') || '[]')
+    
+        const account = accounts.find(acc => acc.email === email && acc.password === password)
 
         if (account) {
-            // Store logged in user info
-            localStorage.setItem('currentUser', JSON.stringify(account));
-            // Redirect based on user type
+            login(account)
             if (account.isAdmin) {
-                navigate('/admin/dashboard');
+                navigate('/admin/dashboard')
+                navigate('/admin/dashboard')
             } else {
-                navigate('/');
+                navigate('/')
             }
         } else {
-            alert("Invalid email or password");
+            alert("Invalid email or password")
         }
-    };
+    }
 
     return (
         <>

@@ -3,19 +3,19 @@ import Images from '../../../constant/images';
 import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
-    const navigate = useNavigate();
+    const navigate = useNavigate()
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        const code = Math.floor(100000 + Math.random() * 900000).toString();
+        e.preventDefault()
+        const code = Math.floor(100000 + Math.random() * 900000).toString()
         
         const userData = {
             name: e.target.name.value,
             email: e.target.email.value,
             phone: e.target.phonenumber.value
-        };
+        }
         
-        const permission = await Notification.requestPermission();
+        const permission = await Notification.requestPermission()
         if (permission === "granted") {
             new Notification("Verification Code", {
                 body: `Your code is: ${code}`

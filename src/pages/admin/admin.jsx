@@ -1,12 +1,16 @@
-import React from 'react';
-import AdminDashboard from './AdminDashboard';
+import React from 'react'
+import { Navigate } from 'react-router-dom'
+import { useAuth } from '../../context/AuthContext'
+import AdminDashboard from './partials/adminDashboard'
 
 const Admin = () => {
-    return (
-        <>
-            <AdminDashboard />  
-        </>
-    );
-};
+    const { currentUser } = useAuth()
 
-export default Admin;
+    if (!currentUser || !currentUser.isAdmin) {
+        return <Navigate to="/" replace />
+    }
+
+    return <AdminDashboard />
+}
+
+export default Admin
