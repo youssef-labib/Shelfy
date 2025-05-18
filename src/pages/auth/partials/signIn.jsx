@@ -1,9 +1,52 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Images from '../../../constant/images';
 
-
 const SignIn = () => {
+    const navigate = useNavigate();
+
+    React.useEffect(() => {
+        // Create admin account if it doesn't exist
+        const accounts = JSON.parse(localStorage.getItem('accounts') || '[]');
+        const adminExists = accounts.some(acc => acc.isAdmin);
+        
+        if (!adminExists) {
+            const adminAccount = {
+                name: "Admin",
+                email: "admin@shelfy.com",
+                password: "admin123",
+                isAdmin: true
+            };
+            accounts.push(adminAccount);
+            localStorage.setItem('accounts', JSON.stringify(accounts));
+        }
+    }, []);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const email = e.target.email.value;
+        const password = e.target.password.value;
+
+        // Get accounts from localStorage
+        const accounts = JSON.parse(localStorage.getItem('accounts') || '[]');
+        
+        // Find matching account
+        const account = accounts.find(acc => acc.email === email && acc.password === password);
+
+        if (account) {
+            // Store logged in user info
+            localStorage.setItem('currentUser', JSON.stringify(account));
+            // Redirect based on user type
+            if (account.isAdmin) {
+                navigate('/admin/dashboard');
+            } else {
+                navigate('/');
+            }
+        } else {
+            alert("Invalid email or password");
+        }
+    };
+
     return (
         <>
             <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
@@ -13,7 +56,7 @@ const SignIn = () => {
                 </div>
 
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form className="space-y-6" action="#" method="POST">
+                    <form className="space-y-6" onSubmit={handleSubmit}>
                         <div>
                             <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">Email address</label>
                             <div className="mt-2">
@@ -25,7 +68,7 @@ const SignIn = () => {
                             <div className="flex items-center justify-between">
                                 <label htmlFor="password" className="block text-sm/6 font-medium text-gray-900">Password</label>
                                 <div className="text-sm">
-                                    <Link to="/auth/forgot-password" className="font-semibold text-[#4F46E5] hover:text-[#4338CA]">Forgot password?</Link>
+                                    <Link to="/auth/forgot-password" className="font-semibold text-indigo-600 hover:text-indigo-500">Forgot password?</Link>
                                 </div>
                             </div>
                             <div className="mt-2">
@@ -34,13 +77,13 @@ const SignIn = () => {
                         </div>
 
                         <div>
-                            <button type="submit" className="flex w-full justify-center rounded-md bg-[#4F46E5] px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-[#4338CA] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4F46E5]">Sign in</button>
+                            <button type="submit" className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
                         </div>
                     </form>
 
                     <p className="mt-10 text-center text-sm/6 text-gray-500">
                         Don't have an account?
-                        <Link to="/auth/sign-up" className="font-semibold text-[#4F46E5] hover:text-[#4338CA] ml-1">Create one now!</Link>
+                        <Link to="/auth/sign-up" className="font-semibold text-indigo-600 hover:text-indigo-500 ml-1">Create one now!</Link>
                     </p>
                 </div>
             </div>
