@@ -29,8 +29,8 @@ const Navbar = () => {
     return (
         <>
             <nav className="relative px-6 py-4 flex justify-between items-center bg-white">
-                <Link to="/" className="text-3xl font-bold leading-none flex flex-row items-center gap-1">
-                    <img src={Images.logo} alt="Shelfy Logo" className="h-8 [filter:brightness(0)_saturate(100%)_invert(31%)_sepia(69%)_saturate(2363%)_hue-rotate(227deg)_brightness(97%)_contrast(94%)]" />
+                <Link to="/" className="text-3xl font-bold leading-none flex flex-row items-center gap-2">
+                    <img src={Images.logo} alt="Shelfy Logo" className="h-8" />
                     <h2 className="text-3xl font-bold text-[#4F46E5]">Shelfy</h2>
                 </Link>
                 <div className="lg:hidden">

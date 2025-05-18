@@ -12,8 +12,11 @@
 {/* <img src={Images.photo1} alt="" /> */}
 {/* <img src={Images.photo2} alt="" /> */}
 
-import logo from "../assets/images/open-book.png"
+import logo from '../assets/images/open-book.png'
+import miniLogo from '../assets/images/book.png'
+
 
 export default {
-    logo
+    logo,
+    miniLogo
 }
