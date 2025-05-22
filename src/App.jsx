@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import HomePage from './pages/home/home';
 import Navbar from './layouts/navbar';
 import ErrorPage from './pages/error/error';
@@ -8,11 +8,11 @@ import SignIn from './pages/auth/partials/signIn';
 import CodeVerification from './pages/auth/partials/codeVerification';
 import CreatePassword from './pages/auth/partials/createPassword';
 import Admin from './pages/admin/admin';
-import { AuthProvider } from './context/AuthContext';
+import { AppProvider } from './context/AppContext';
 
 const App = () => {
   return (
-    <AuthProvider>
+    <AppProvider>
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -23,7 +23,7 @@ const App = () => {
         <Route path="/admin/dashboard" element={<Admin />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
-    </AuthProvider>
+    </AppProvider>
   );
 };
 

@@ -1,15 +1,12 @@
 import React from 'react';
 import HeroSection from './partials/hero';
-import MainSection from './partials/main';
+import BookCards from './partials/BookCards';
 
 const HomePage = () => {
-
     return (
         <>
-
             <HeroSection />
-            <MainSection />
-
+            <BookCards />
         </>
     );
 };

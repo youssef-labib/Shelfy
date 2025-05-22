@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import images from '../../../constant/images'
-import booksData from '../../../json/booksData.json'
+import { useAppContext } from '../../../context/AppContext'
 
-const AdminDashboard = () => {
+const AdminDashboard = ({ books }) => {
+    const { activeUser } = useAppContext()
     const [formData, setFormData] = useState({
         title: "",
         description: "",
@@ -38,7 +39,7 @@ const AdminDashboard = () => {
         e.preventDefault()
 
         const storedBooks = JSON.parse(localStorage.getItem('books') || '[]')
-        const existingBooks = [...booksData.books, ...storedBooks]
+        const existingBooks = [...books, ...storedBooks]
         const maxId = Math.max(...existingBooks.map(book => book.id), 0)
         
         const newBook = {
@@ -67,7 +68,62 @@ const AdminDashboard = () => {
     }
 
     return (
-        <>
+        <div className="container mx-auto px-4 py-8">
+            <h1 className="text-3xl font-bold mb-8">Welcome, {activeUser?.userName || 'Admin'}</h1>
+            
+            <div className="bg-white rounded-lg shadow-md p-6">
+                <h2 className="text-xl font-semibold mb-4">Books Overview</h2>
+                <div className="overflow-x-auto">
+                    <table className="min-w-full divide-y divide-gray-200">
+                        <thead>
+                            <tr>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Author</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Categories</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-200">
+                            {books?.map(book => (
+                                <tr key={book.id}>
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        <div className="flex items-center">
+                                            <img 
+                                                src={book.imageUrl} 
+                                                alt={book.title}
+                                                className="h-10 w-10 object-cover rounded"
+                                            />
+                                            <div className="ml-4">
+                                                <div className="text-sm font-medium text-gray-900">{book.title}</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        <div className="text-sm text-gray-900">{book.authors.join(', ')}</div>
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        <div className="flex flex-wrap gap-1">
+                                            {book.categories.map((category, index) => (
+                                                <span 
+                                                    key={index}
+                                                    className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800"
+                                                >
+                                                    {category}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <button className="text-indigo-600 hover:text-indigo-900 mr-4">Edit</button>
+                                        <button className="text-red-600 hover:text-red-900">Delete</button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
             <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                     <img className="mx-auto h-10 w-auto" src={images.miniLogo} alt="Your Company" />
@@ -99,7 +155,7 @@ const AdminDashboard = () => {
                                     id="description" 
                                     value={formData.description}
                                     onChange={handleInputChange}
-                                    required 
+                                    required
                                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" 
                                 />
                             </div>
@@ -174,7 +230,7 @@ const AdminDashboard = () => {
                     </form>
                 </div>
             </div>
-        </>
+        </div>
     )
 }
 

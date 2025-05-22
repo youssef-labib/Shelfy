@@ -1,16 +1,16 @@
 import React from 'react'
 import { Navigate } from 'react-router-dom'
-import { useAuth } from '../../context/AuthContext'
+import { useAppContext } from '../../context/AppContext'
 import AdminDashboard from './partials/adminDashboard'
 
-const Admin = () => {
-    const { currentUser } = useAuth()
+const Admin = ({ books }) => {
+    const { activeUser } = useAppContext()
 
-    if (!currentUser || !currentUser.isAdmin) {
+    if (!activeUser || activeUser.role !== 'admin') {
         return <Navigate to="/" replace />
     }
 
-    return <AdminDashboard />
+    return <AdminDashboard books={books} />
 }
 
 export default Admin

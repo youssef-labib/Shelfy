@@ -1,13 +1,7 @@
 import React from 'react';
 
 const HeroSection = () => {
-    const scrollToMain = () => {
-        const mainSection = document.querySelector('.main-container');
-        if (mainSection) {
-            mainSection.scrollIntoView({ behavior: 'smooth' });
-        }
-    };
-
+    
     return (
         <>
             <div className="relative overflow-hidden before:absolute before:top-0 before:start-1/2 before:bg-[url('https://preline.co/assets/svg/examples/squared-bg-element.svg')] before:bg-no-repeat before:bg-top before:size-full before:-z-1 before:transform before:-translate-x-1/2">
@@ -33,12 +27,7 @@ const HeroSection = () => {
                     </div>
 
                     <div className="mt-8 gap-3 flex justify-center">
-                        <button 
-                            onClick={scrollToMain}
-                            className="inline-flex justify-center items-center gap-x-3 text-center bg-[#4F46E5] hover:bg-[#4338CA] focus:outline-none focus:ring-2 focus:ring-offset-2 border border-transparent text-white text-sm font-medium rounded-full py-3 px-6 transition duration-200"
-                        >
-                            Browse Library
-                        </button>
+                        <button className="inline-flex justify-center items-center gap-x-3 text-center bg-[#4F46E5] hover:bg-[#4338CA] focus:outline-none focus:ring-2 focus:ring-offset-2 border border-transparent text-white text-sm font-medium rounded-full py-3 px-6 transition duration-200">Browse Library</button>
                     </div>
                 </div>
             </div>
