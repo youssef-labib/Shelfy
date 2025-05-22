@@ -1,22 +1,15 @@
 import React, { useEffect, useState } from 'react';
 
 const BookCards = () => {
-    const [books, setBooks] = useState([])
+    const [allBooks, setAllBooks] = useState([])
+    const [filteredBooks, setFilteredBooks] = useState([])
     const [searchTerm, setSearchTerm] = useState('')
-    const [isLoading, setIsLoading] = useState(false)
     const [selectedBook, setSelectedBook] = useState(null)
     const [showSuccessModal, setShowSuccessModal] = useState(false)
 
     useEffect(() => {
         const getBooks = async () => {
             try {
-                let query
-                if (searchTerm.trim()) {
-                    query = searchTerm.trim()
-                } else {
-                    query = 'programming'
-                }
-                
                 const response = await fetch('https://openlibrary.org/search.json?q=programming&limit=100')
                 const data = await response.json()
                 
@@ -52,16 +45,36 @@ const BookCards = () => {
                             editionCount: editionCount,
                             description: book.description || 'No description available.'
                         }
+
                     })
-                    setBooks(formattedBooks)
+
+                    setAllBooks(formattedBooks)
+                    setFilteredBooks(formattedBooks)
                 }
+                
             } catch (error) {
                 console.error('Error fetching books:', error)
             }
         }
 
         getBooks()
-    }, [searchTerm])
+    }, [])
+
+    useEffect(() => {
+        if (searchTerm.trim() === '') {
+            setFilteredBooks(allBooks)
+            return
+        }
+
+        const searchTermLower = searchTerm.toLowerCase().trim()
+        const filtered = allBooks.filter(book => 
+            book.title.toLowerCase().includes(searchTermLower) || 
+            book.authors.some(author => 
+                author.toLowerCase().includes(searchTermLower)
+            )
+        )
+        setFilteredBooks(filtered)
+    }, [searchTerm, allBooks])
 
     const handleConfirmBorrow = () => {
         setSelectedBook(null)
@@ -69,7 +82,7 @@ const BookCards = () => {
     }
 
     const renderContent = () => {
-        return books.map(book => (
+        return filteredBooks.map(book => (
             <div key={book.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-200">
                 <img
                     src={book.coverUrl}
